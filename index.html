@@ -35,11 +35,10 @@
         /* --- Градиент (Северное сияние) --- */
         .top-glow {
             position: absolute;
-            top: -50px; /* Чуть ниже, чтобы не уходил сильно вверх */
+            top: -120px;
             left: -50%;
             width: 200%;
-            height: 300px; /* Высота ограничена, чтобы заканчиваться у текста */
-            /* Более "короткие" и частые переходы цветов */
+            height: 300px;
             background: linear-gradient(to right, 
                 rgba(0, 255, 255, 0) 0%,
                 rgba(0, 255, 255, 0.4) 15%, 
@@ -53,10 +52,9 @@
             background-size: 200% auto;
             z-index: 0;
             pointer-events: none;
-            filter: blur(45px); /* Чуть меньше блюра для четкости */
-            animation: aurora 10s linear infinite;
+            filter: blur(10px);
+            animation: aurora 30s linear infinite;
             opacity: 0.9;
-            /* Маска, чтобы градиент плавно, но быстро исчезал к низу, не заходя на текст */
             -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
             mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
         }
@@ -66,7 +64,6 @@
             100% { background-position: -100% 0; }
         }
         
-        /* Анимация плавания логотипа */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-6px); }
@@ -75,7 +72,6 @@
             animation: float 4s ease-in-out infinite;
         }
 
-        /* Анимация спиннера */
         .spinner-btn {
             width: 20px;
             height: 20px;
@@ -93,7 +89,6 @@
         .hidden-screen { display: none !important; }
         .flex-screen { display: flex !important; }
 
-        /* Кнопка */
         .vk-btn {
             background-color: #2D2E33;
             color: #76787A;
@@ -105,12 +100,11 @@
             cursor: not-allowed;
         }
         .vk-btn.active-btn {
-            background-color: #ffffff;
-            color: #000;
+            background-color: #007AFF;
+            color: #FFFFFF;
             cursor: pointer;
         }
 
-        /* Поле ввода */
         .phone-input-container {
             background-color: #1c1c1e;
             border-radius: 12px;
@@ -134,9 +128,14 @@
             margin-right: 10px;
         }
         #current-flag {
-            font-size: 22px;
-            line-height: 1;
+            display: flex;
+            align-items: center;
             margin-right: 6px;
+        }
+        #current-flag img {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
         }
         #current-code {
             font-size: 16px;
@@ -156,7 +155,6 @@
             color: #8e8e93;
         }
 
-        /* --- СТИЛИ ЭКРАНА СМС (Обновлено) --- */
         .sms-code-box {
             width: 48px;
             height: 56px;
@@ -167,13 +165,11 @@
             justify-content: center;
             font-size: 24px;
             font-weight: 500;
-            color: white; /* Начальный цвет */
+            color: white;
             transform: scale(1);
             text-shadow: none;
-            /* Убрали лишние переходы, оставили только цвет */
             transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        /* Курсор в первой ячейке */
         .sms-code-box.focused .cursor {
             display: block;
             width: 2px;
@@ -182,14 +178,12 @@
             animation: blink 1s step-end infinite;
         }
         
-        /* Эффект заполнения (просто смена цвета) */
         .sms-code-box.filled {
-            color: #34c759; /* Зеленый цвет */
-            transform: none; /* Убран масштаб */
-            text-shadow: none; /* Убрано свечение */
+            color: #34c759;
+            transform: none;
+            text-shadow: none;
         }
 
-        /* Эффект "Settle" (оставили для совместимости логики, но без визуала) */
         .sms-code-box.filled-settled {
             transform: none;
             text-shadow: none;
@@ -198,10 +192,7 @@
         @keyframes blink {
             50% { opacity: 0; }
         }
-        /* --- КОНЕЦ СТИЛЕЙ СМС --- */
 
-
-        /* Modals & Overlays */
         .modal-overlay {
             position: absolute;
             inset: 0;
@@ -223,11 +214,11 @@
             width: 100%;
             background: #1c1c1e;
             border-radius: 20px 20px 0 0;
-            padding: 0; /* Padding убран для списка */
+            padding: 0;
             transform: translateY(100%);
             transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
             border-top: 1px solid rgba(255,255,255,0.1);
-            max-height: 80vh; /* Ограничение высоты */
+            max-height: 80vh;
             display: flex;
             flex-direction: column;
         }
@@ -250,13 +241,12 @@
             transform: scale(1);
         }
 
-        /* Country List Header */
         .country-header {
             padding: 16px 20px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
-            justify-content: center; /* Центрируем заголовок */
+            justify-content: center;
             position: relative;
         }
         .drag-handle {
@@ -270,7 +260,6 @@
             transform: translateX(-50%);
         }
 
-        /* Country Item */
         .country-list {
             overflow-y: auto;
             padding: 0 20px 20px 20px;
@@ -279,19 +268,21 @@
             display: flex;
             align-items: center;
             padding: 14px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05); /* Тоньше разделитель */
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             cursor: pointer;
         }
         .country-item:last-child { border-bottom: none; }
         .country-item:active { opacity: 0.7; }
-        .country-item .flag-emoji {
-            font-size: 22px;
+        
+        /* Уменьшил размер иконки флага до 16px */
+        .country-item .flag-img {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
             margin-right: 14px;
-            width: 24px;
-            text-align: center;
+            display: block;
         }
 
-        /* Chats Styles */
         .dark-bg { background-color: #0d0d0f; }
         .dark-header { background-color: #0d0d0f; }
         .dark-nav { background-color: #0d0d0f; }
@@ -320,26 +311,16 @@
         
         <!-- 1. LOGIN SCREEN -->
         <div id="login" class="absolute inset-0 z-40 flex flex-col relative overflow-hidden h-full">
-            
-            <!-- ГРАДИЕНТ (Заканчивается до текста) -->
             <div class="top-glow"></div>
 
             <div class="relative z-10 flex flex-col h-full w-full px-5 py-5 justify-between">
-                
-                <!-- Top Section -->
                 <div class="w-full flex flex-col items-center">
-                    
-                    <!-- Header: Logo + Help -->
                     <div class="w-full flex justify-between items-start pt-4 mb-8">
-                        <div class="w-8"></div> <!-- Spacer -->
-                        
-                        <!-- Логотип (плавает) -->
+                        <div class="w-8"></div>
                         <div class="flex items-center justify-center ml-2 mt-1">
                              <img src="https://raw.githubusercontent.com/XtraDamage/max/refs/heads/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F149_20251201215353.png" 
                                   class="w-[90px] h-[38px] object-contain drop-shadow-[0_0_12px_rgba(0,85,255,0.5)] logo-floating" alt="MAX">
                         </div>
-
-                        <!-- Help Icon (?) -->
                         <div id="help-btn" class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                                 <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
@@ -349,7 +330,6 @@
                         </div>
                     </div>
 
-                    <!-- Texts -->
                     <h1 class="text-[20px] font-bold text-center leading-snug mb-2 text-white tracking-wide drop-shadow-md relative z-20">
                         С каким номером<br>телефона хотите войти?
                     </h1>
@@ -357,24 +337,23 @@
                         На него придёт СМС с кодом
                     </p>
 
-                    <!-- Input Field -->
                     <div class="w-full phone-input-container mb-3 relative z-20">
                         <div id="country-trigger">
-                            <span id="current-flag">🇷🇺</span>
+                            <span id="current-flag">
+                                <img src="https://em-content.zobj.net/source/apple/419/flag-russia_1f1f7-1f1fa.png" class="w-6 h-6 object-contain">
+                            </span>
                             <span id="current-code">+7</span>
                         </div>
-                        <input type="tel" id="phone" placeholder="000 000 00 00">
+                        <input type="tel" id="phone" placeholder="123 456 78 90">
                     </div>
                     
-                    <!-- Helper Text -->
                     <p class="text-[#65666B] text-[12px] leading-4 text-center px-2 relative z-20">
                         Для входа нужен номер из России или страны из списка — нажмите на флаг, чтобы выбрать
                     </p>
                 </div>
 
-                <!-- Bottom Button & Legal -->
                 <div class="w-full mb-5 relative z-20">
-                    <button id="btn-continue" disabled class="vk-btn w-full h-[48px] rounded-xl font-medium text-[16px] mb-4 flex items-center justify-center">
+                    <button id="btn-continue" disabled class="vk-btn w-full h-[48px] rounded-xl font-bold text-[16px] mb-4 flex items-center justify-center">
                         Продолжить
                     </button>
                     <div class="text-center text-[#65666B] text-[11px] leading-4 px-2 font-normal">
@@ -385,22 +364,18 @@
             </div>
         </div>
 
-        <!-- 2. SMS VERIFY SCREEN (Новый экран) -->
+        <!-- 2. SMS VERIFY SCREEN -->
         <div id="sms-verify" class="absolute inset-0 z-35 flex flex-col h-full hidden-screen">
             <div class="relative z-10 flex flex-col h-full w-full px-5 py-5 justify-between">
                 
-                <!-- Top Section -->
                 <div class="w-full flex flex-col items-center">
-                    
-                    <!-- Header: Back Arrow -->
                     <div class="w-full flex justify-between items-start pt-4 mb-8">
                         <div id="btn-sms-back" class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer opacity-70 hover:opacity-100 transition-opacity -ml-2">
                              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
                         </div>
-                        <div class="w-8"></div> <!-- Spacer -->
+                        <div class="w-8"></div>
                     </div>
 
-                    <!-- Texts -->
                     <h1 class="text-[20px] font-bold text-center leading-snug mb-2 text-white tracking-wide drop-shadow-md relative z-20">
                         Какой код пришёл в СМС?
                     </h1>
@@ -408,9 +383,7 @@
                         Отправили код на +7 999 888 77 66. <br>Если номер неверный, вернитесь назад.
                     </p>
 
-                    <!-- Code Input Boxes -->
                     <div class="flex space-x-2 justify-center w-full mb-6 relative z-20">
-                        <!-- Ячейка 1 (с курсором) -->
                         <div id="code-box-0" class="sms-code-box focused">
                             <span class="cursor" style="display: block;"></span>
                         </div>
@@ -422,7 +395,6 @@
                     </div>
                 </div>
 
-                <!-- Bottom Timer -->
                 <div class="w-full mb-5 relative z-20">
                     <p class="text-[#65666B] text-[14px] text-center">
                         Получить новый код можно через 0:56
@@ -432,7 +404,7 @@
         </div>
 
 
-        <!-- MODAL: COUNTRY SELECTOR (Updated List) -->
+        <!-- MODAL: COUNTRY SELECTOR -->
         <div id="modal-country" class="modal-overlay">
             <div class="bottom-sheet">
                 <div class="country-header">
@@ -440,62 +412,62 @@
                 </div>
                 <div class="country-list no-scrollbar">
                     <!-- Russia -->
-                    <div class="country-item" onclick="selectCountry('ru', '+7', '🇷🇺')">
-                        <span class="flag-emoji">🇷🇺</span>
+                    <div class="country-item" onclick="selectCountry('ru', '+7', 'https://em-content.zobj.net/source/apple/419/flag-russia_1f1f7-1f1fa.png')">
+                        <img src="https://em-content.zobj.net/source/apple/419/flag-russia_1f1f7-1f1fa.png" class="flag-img" alt="RU">
                         <span class="text-white text-[17px] font-medium flex-1">Россия</span>
                         <span class="text-[#8e8e93] text-[17px] font-medium">+7</span>
                     </div>
                     <!-- Belarus -->
-                    <div class="country-item" onclick="selectCountry('by', '+375', '🇧🇾')">
-                        <span class="flag-emoji">🇧🇾</span>
+                    <div class="country-item" onclick="selectCountry('by', '+375', 'https://em-content.zobj.net/source/apple/419/flag-belarus_1f1e7-1f1fe.png')">
+                        <img src="https://em-content.zobj.net/source/apple/419/flag-belarus_1f1e7-1f1fe.png" class="flag-img" alt="BY">
                         <span class="text-white text-[17px] font-medium flex-1">Беларусь</span>
                         <span class="text-[#8e8e93] text-[17px] font-medium">+375</span>
                     </div>
                     <!-- Azerbaijan -->
-                    <div class="country-item" onclick="selectCountry('az', '+994', '🇦🇿')">
-                        <span class="flag-emoji">🇦🇿</span>
+                    <div class="country-item" onclick="selectCountry('az', '+994', 'https://em-content.zobj.net/source/apple/419/flag-azerbaijan_1f1e6-1f1ff.png')">
+                        <img src="https://em-content.zobj.net/source/apple/419/flag-azerbaijan_1f1e6-1f1ff.png" class="flag-img" alt="AZ">
                         <span class="text-white text-[17px] font-medium flex-1">Азербайджан</span>
                         <span class="text-[#8e8e93] text-[17px] font-medium">+994</span>
                     </div>
                     <!-- Armenia -->
-                    <div class="country-item" onclick="selectCountry('am', '+374', '🇦🇲')">
-                        <span class="flag-emoji">🇦🇲</span>
+                    <div class="country-item" onclick="selectCountry('am', '+374', 'https://em-content.zobj.net/source/apple/419/flag-armenia_1f1e6-1f1f2.png')">
+                        <img src="https://em-content.zobj.net/source/apple/419/flag-armenia_1f1e6-1f1f2.png" class="flag-img" alt="AM">
                         <span class="text-white text-[17px] font-medium flex-1">Армения</span>
                         <span class="text-[#8e8e93] text-[17px] font-medium">+374</span>
                     </div>
                     <!-- Kazakhstan -->
-                    <div class="country-item" onclick="selectCountry('kz', '+7', '🇰🇿')">
-                        <span class="flag-emoji">🇰🇿</span>
+                    <div class="country-item" onclick="selectCountry('kz', '+7', 'https://em-content.zobj.net/source/apple/419/flag-kazakhstan_1f1f0-1f1ff.png')">
+                        <img src="https://em-content.zobj.net/source/apple/419/flag-kazakhstan_1f1f0-1f1ff.png" class="flag-img" alt="KZ">
                         <span class="text-white text-[17px] font-medium flex-1">Казахстан</span>
                         <span class="text-[#8e8e93] text-[17px] font-medium">+7</span>
                     </div>
                     <!-- Kyrgyzstan -->
-                    <div class="country-item" onclick="selectCountry('kg', '+996', '🇰🇬')">
-                        <span class="flag-emoji">🇰🇬</span>
+                    <div class="country-item" onclick="selectCountry('kg', '+996', 'https://em-content.zobj.net/source/apple/419/flag-kyrgyzstan_1f1f0-1f1ec.png')">
+                        <img src="https://em-content.zobj.net/source/apple/419/flag-kyrgyzstan_1f1f0-1f1ec.png" class="flag-img" alt="KG">
                         <span class="text-white text-[17px] font-medium flex-1">Кыргызстан</span>
                         <span class="text-[#8e8e93] text-[17px] font-medium">+996</span>
                     </div>
                     <!-- Moldova -->
-                    <div class="country-item" onclick="selectCountry('md', '+373', '🇲🇩')">
-                        <span class="flag-emoji">🇲🇩</span>
+                    <div class="country-item" onclick="selectCountry('md', '+373', 'https://em-content.zobj.net/source/apple/419/flag-moldova_1f1f2-1f1e9.png')">
+                        <img src="https://em-content.zobj.net/source/apple/419/flag-moldova_1f1f2-1f1e9.png" class="flag-img" alt="MD">
                         <span class="text-white text-[17px] font-medium flex-1">Молдова</span>
                         <span class="text-[#8e8e93] text-[17px] font-medium">+373</span>
                     </div>
                     <!-- Tajikistan -->
-                    <div class="country-item" onclick="selectCountry('tj', '+992', '🇹🇯')">
-                        <span class="flag-emoji">🇹🇯</span>
+                    <div class="country-item" onclick="selectCountry('tj', '+992', 'https://em-content.zobj.net/source/apple/419/flag-tajikistan_1f1f9-1f1ef.png')">
+                        <img src="https://em-content.zobj.net/source/apple/419/flag-tajikistan_1f1f9-1f1ef.png" class="flag-img" alt="TJ">
                         <span class="text-white text-[17px] font-medium flex-1">Таджикистан</span>
                         <span class="text-[#8e8e93] text-[17px] font-medium">+992</span>
                     </div>
                     <!-- Uzbekistan -->
-                    <div class="country-item" onclick="selectCountry('uz', '+998', '🇺🇿')">
-                        <span class="flag-emoji">🇺🇿</span>
+                    <div class="country-item" onclick="selectCountry('uz', '+998', 'https://em-content.zobj.net/source/apple/419/flag-uzbekistan_1f1fa-1f1ff.png')">
+                        <img src="https://em-content.zobj.net/source/apple/419/flag-uzbekistan_1f1fa-1f1ff.png" class="flag-img" alt="UZ">
                         <span class="text-white text-[17px] font-medium flex-1">Узбекистан</span>
                         <span class="text-[#8e8e93] text-[17px] font-medium">+998</span>
                     </div>
                      <!-- Georgia -->
-                     <div class="country-item" onclick="selectCountry('ge', '+995', '🇬🇪')">
-                        <span class="flag-emoji">🇬🇪</span>
+                     <div class="country-item" onclick="selectCountry('ge', '+995', 'https://em-content.zobj.net/source/apple/419/flag-georgia_1f1ec-1f1ea.png')">
+                        <img src="https://em-content.zobj.net/source/apple/419/flag-georgia_1f1ec-1f1ea.png" class="flag-img" alt="GE">
                         <span class="text-white text-[17px] font-medium flex-1">Грузия</span>
                         <span class="text-[#8e8e93] text-[17px] font-medium">+995</span>
                     </div>
@@ -523,7 +495,7 @@
         </div>
 
 
-        <!-- 3. CHATS SCREEN (Hidden initially) -->
+        <!-- 3. CHATS SCREEN -->
         <div id="chats" class="absolute inset-0 dark-bg z-30 flex flex-col hidden-screen">
             <!-- Header -->
             <div class="px-4 pt-4 pb-2 flex items-center justify-between dark-header z-10">
@@ -541,8 +513,8 @@
             <div class="px-4 pb-0 flex items-end justify-between dark-header flex-shrink-0 z-10">
                 <div class="flex space-x-5">
                     <div class="pb-3 border-b-[3px] border-[#0077FF] cursor-pointer relative top-[1px]"><span class="text-[17px] font-semibold text-white">Все</span></div>
-                    <div class="pb-3 cursor-pointer flex items-center group relative top-[1px]"><span class="text-[17px] font-medium text-[#8e8e93] group-hover:text-white transition-colors">Новые</span><div class="ml-1.5 bg-[#3a3a3c] text-[#8e8e93] text-[12px] font-medium px-2 py-[1px] rounded-full">3</div></div>
-                    <div class="pb-3 cursor-pointer flex items-center group relative top-[1px]"><span class="text-[17px] font-medium text-[#8e8e93] group-hover:text-white transition-colors">Личные</span><div class="ml-1.5 bg-[#3a3a3c] text-[#8e8e93] text-[12px] font-medium px-2 py-[1px] rounded-full">2</div></div>
+                    <div class="pb-3 cursor-pointer flex items-center group relative top-[1px]"><span class="text-[17px] font-medium text-[#8e8e93] group-hover:text-white transition-colors">Новые</span></div>
+                    <div class="pb-3 cursor-pointer flex items-center group relative top-[1px]"><span class="text-[17px] font-medium text-[#8e8e93] group-hover:text-white transition-colors">Личные</span></div>
                 </div>
             </div>
             <!-- Scrollable Content -->
@@ -560,30 +532,33 @@
                     </div>
                 </div>
             </div>
-             <!-- Bottom Nav -->
+             <!-- Bottom Nav (Обновлены иконки) -->
              <div class="h-[84px] dark-nav flex justify-between px-2 items-start pt-2 flex-shrink-0 pb-6 relative z-20">
                 <div class="flex flex-col items-center justify-center cursor-pointer w-1/4 group">
                     <div class="w-[28px] h-[28px] mb-[2px] text-[#8e8e93] group-hover:text-white transition-colors flex items-center justify-center">
-                         <svg viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                         <!-- Contacts Icon -->
+                         <svg viewBox="0 0 32 32" fill="none" class="w-7 h-7 text-[#8e8e93] group-hover:text-white transition-colors"><path fill="currentColor" fill-rule="evenodd" d="M6.67 8.13c0-3.69 3.1-5.46 5.66-5.46C14.9 2.67 18 4.44 18 8.13c0 1.6-.45 3.21-1.4 4.44a5.25 5.25 0 0 1-4.27 2.1c-1.83 0-3.3-.83-4.27-2.1a7.32 7.32 0 0 1-1.4-4.44Zm5.66-2.8c-1.56 0-3 1.01-3 2.8 0 1.14.33 2.14.85 2.82.5.65 1.2 1.06 2.15 1.06s1.66-.4 2.16-1.06c.52-.68.84-1.68.84-2.82 0-1.79-1.44-2.8-3-2.8ZM23.46 5.33c-1.84 0-4.14 1.29-4.14 4.01a5.2 5.2 0 0 0 1 3.16c.71.93 1.8 1.54 3.14 1.54s2.42-.61 3.13-1.54c.69-.9 1-2.04 1-3.16 0-2.72-2.3-4-4.13-4Zm-1.47 4.01c0-.48.18-.78.42-.98.27-.22.66-.36 1.05-.36.38 0 .77.14 1.04.36.24.2.43.5.43.98 0 .65-.2 1.2-.46 1.54-.24.31-.55.5-1.01.5a1.2 1.2 0 0 1-1.02-.5 2.55 2.55 0 0 1-.45-1.54ZM12.33 16c-4 0-6.63 1-8.26 2.53A6.56 6.56 0 0 0 2 23.35c0 1.44.49 3.07 2.24 4.26 1.63 1.11 4.2 1.72 8.1 1.72 3.88 0 6.46-.6 8.09-1.72a4.85 4.85 0 0 0 2.2-3.59l.86.02c2.55 0 4.33-.39 5.5-1.16a3.56 3.56 0 0 0 1.68-3.1c0-.98-.33-2.32-1.51-3.4-1.18-1.07-3.01-1.71-5.67-1.71-2.67 0-4.5.64-5.68 1.7l-.34.36a16.12 16.12 0 0 0-5.14-.73Zm7.69 2.05a6.48 6.48 0 0 1 2.34 3.3l1.13.02c2.38 0 3.52-.38 4.04-.72.4-.26.47-.52.47-.87 0-.42-.13-.97-.64-1.43-.51-.47-1.6-1.02-3.87-1.02-1.8 0-2.85.34-3.47.72Zm-15.35 5.3c0-.85.26-1.96 1.23-2.87.97-.92 2.85-1.81 6.43-1.81 3.59 0 5.46.89 6.44 1.8A3.9 3.9 0 0 1 20 23.36c0 .78-.22 1.47-1.07 2.06-.97.65-2.9 1.26-6.6 1.26-3.7 0-5.62-.6-6.6-1.26a2.26 2.26 0 0 1-1.06-2.06Z" clip-rule="evenodd"></path></svg>
                     </div>
                     <span class="text-[10px] text-[#8e8e93] font-medium group-hover:text-white">Контакты</span>
                 </div>
                 <div class="flex flex-col items-center justify-center cursor-pointer w-1/4 group">
                     <div class="w-[28px] h-[28px] mb-[2px] text-[#8e8e93] group-hover:text-white transition-colors flex items-center justify-center">
-                         <svg viewBox="0 0 24 24" fill="currentColor" class="w-[26px] h-[26px]"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-2.2 2.2a15.161 15.161 0 01-6.59-6.59l2.2-2.21a.96.96 0 00.25-1.01A11.36 11.36 0 018.59 3.99C8.59 3.44 8.14 3 7.59 3H4.03C3.48 3 3 3.45 3 4.01 3.2 13.97 11.3 22 21.28 22c.56 0 1-.48 1-1.03v-3.59c0-.55-.45-1-1.01-1z"/></svg>
+                         <!-- Calls Icon -->
+                         <svg viewBox="0 0 32 32" fill="none" class="w-[26px] h-[26px] text-[#8e8e93] group-hover:text-white transition-colors"><path fill="currentColor" fill-rule="evenodd" d="M10.02 2.8a4.3 4.3 0 0 1 4.8 2.12 14.93 14.93 0 0 1 1.27 3.05 4.52 4.52 0 0 1-2.37 5.24l-.25.13a.83.83 0 0 0-.3.25c-.05.06-.05.1-.05.12.04.79.33 2.19 1.69 3.82a7.13 7.13 0 0 0 3.34 2.45c.02 0 .05.01.12-.02a.8.8 0 0 0 .3-.24l.4-.48a4.47 4.47 0 0 1 5.33-1.3c.43.2.9.44 1.3.69.56.35 1.16.83 1.67 1.27a4.3 4.3 0 0 1 1.09 5.07c-.15.3-.3.62-.46.9a6.5 6.5 0 0 1-6.3 3.43c-3.11-.33-7.68-1.92-12.15-7.33-4.48-5.43-5.18-10.21-4.92-13.34a6.52 6.52 0 0 1 4.54-5.56c.3-.1.63-.2.95-.27Zm2.46 3.4c-.37-.66-1.11-.99-1.82-.81-.28.07-.54.14-.75.21A3.85 3.85 0 0 0 7.2 8.85c-.2 2.45.29 6.54 4.31 11.42 4.03 4.87 7.95 6.12 10.39 6.38 1.45.16 2.9-.66 3.69-2.08.11-.2.23-.46.36-.73.31-.66.14-1.44-.4-1.92-.48-.4-.96-.78-1.35-1.03-.28-.17-.63-.35-1.02-.53-.68-.32-1.56-.12-2.14.58l-.4.49c-.68.81-1.89 1.52-3.26 1.1a9.76 9.76 0 0 1-4.62-3.3 9.27 9.27 0 0 1-2.3-5.37c-.07-1.4.86-2.42 1.8-2.9l.26-.13c.85-.44 1.24-1.34 1.01-2.12-.13-.45-.26-.86-.4-1.2-.15-.38-.39-.84-.64-1.3Z" clip-rule="evenodd"></path></svg>
                     </div>
                     <span class="text-[10px] text-[#8e8e93] font-medium group-hover:text-white">Звонки</span>
                 </div>
                 <div class="flex flex-col items-center justify-center cursor-pointer w-1/4 relative">
-                    <div class="absolute top-[-1px] right-[26px] bg-[#FF3347] text-white text-[12px] font-bold h-[20px] min-w-[20px] px-1 flex items-center justify-center rounded-full border-[3px] border-[#0d0d0f] z-10 leading-none">3</div>
                     <div class="w-[28px] h-[28px] mb-[2px] text-[#0077FF] flex items-center justify-center">
-                        <svg viewBox="0 0 24 24" fill="currentColor" class="w-[26px] h-[26px]"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                        <!-- Chats Icon -->
+                        <svg viewBox="0 0 32 32" fill="none" class="w-[26px] h-[26px] text-[#0077FF]"><path fill="currentColor" d="M10 16.67c.92 0 1.67-.9 1.67-2s-.75-2-1.67-2c-.92 0-1.67.9-1.67 2s.75 2 1.67 2ZM17.6 14.67c0 1.1-.75 2-1.67 2-.93 0-1.67-.9-1.67-2s.74-2 1.67-2c.92 0 1.66.9 1.66 2ZM22 16.67c.92 0 1.67-.9 1.67-2s-.75-2-1.67-2c-.92 0-1.67.9-1.67 2s.75 2 1.67 2Z"></path><path fill="currentColor" fill-rule="evenodd" d="M2.67 14.66c0 .93.05 1.95.13 2.96.25 3.09.38 4.63 1.6 5.84 1.06 1.07 2.44 1.3 4.95 1.52l.28.03c.92.13 1.65.87 1.68 1.8.03.83.02 1.61-.02 2.38-.07 1.08 1.08 1.87 1.98 1.27a15.24 15.24 0 0 0 4.96-5.19c1.13-.04 2.28-.12 3.38-.2 3.19-.27 4.79-.4 6-1.61s1.34-2.75 1.59-5.84c.08-1.01.13-2.03.13-2.96 0-.92-.05-1.94-.13-2.96-.25-3.08-.38-4.62-1.6-5.84-1.2-1.2-2.8-1.34-5.99-1.6A71.36 71.36 0 0 0 16 4c-1.8 0-3.77.11-5.61.26-3.2.26-4.79.4-6 1.6C3.18 7.08 3.05 8.62 2.8 11.7a37.26 37.26 0 0 0-.13 2.96Zm6.97 7.66h-.06c-2.66-.23-3.02-.46-3.3-.75-.17-.17-.32-.37-.45-.93-.16-.69-.24-1.62-.37-3.23-.08-.98-.13-1.92-.13-2.75 0-.83.05-1.77.13-2.74.13-1.62.21-2.55.37-3.24.13-.56.28-.76.45-.93.16-.16.36-.3.96-.44.72-.17 1.7-.25 3.36-.39 1.8-.15 3.7-.25 5.4-.25a68.74 68.74 0 0 1 8.76.64c.6.13.8.28.96.44.17.17.31.37.44.93.16.7.25 1.62.38 3.24.08.97.13 1.91.13 2.74 0 .83-.05 1.77-.13 2.75a25.1 25.1 0 0 1-.38 3.23c-.13.56-.27.76-.44.93-.16.16-.36.31-.96.45-.72.16-1.7.25-3.37.38-1.07.1-2.18.17-3.27.21l-1.43.06-.74 1.22a13.41 13.41 0 0 1-1.99 2.6A4.58 4.58 0 0 0 10 22.37l-.35-.05Z" clip-rule="evenodd"></path></svg>
                     </div>
                     <span class="text-[10px] text-[#0077FF] font-medium">Чаты</span>
                 </div>
                 <div class="flex flex-col items-center justify-center cursor-pointer w-1/4 group">
                     <div class="w-[28px] h-[28px] mb-[2px] text-[#8e8e93] group-hover:text-white transition-colors flex items-center justify-center">
-                         <svg viewBox="0 0 24 24" fill="currentColor" class="w-[26px] h-[26px]"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                         <!-- Profile Icon -->
+                         <svg viewBox="0 0 24 24" fill="none" class="w-[26px] h-[26px] text-[#8e8e93] group-hover:text-white transition-colors"><path fill="currentColor" fill-rule="evenodd" d="M7.93 9.93C7.93 7.27 10.16 6 12 6c1.84 0 4.07 1.27 4.07 3.93 0 1.14-.32 2.3-1 3.18-.7.9-1.75 1.5-3.07 1.5-1.32 0-2.37-.6-3.07-1.5-.68-.89-1-2.04-1-3.18ZM12 8c-1.08 0-2.07.7-2.07 1.93 0 .8.23 1.49.59 1.96.34.45.82.72 1.48.72s1.14-.27 1.48-.72c.36-.47.59-1.17.59-1.96C14.07 8.7 13.08 8 12 8Z" clip-rule="evenodd"></path><path fill="currentColor" fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20ZM4 12a8 8 0 1 1 13.97 5.33 5.47 5.47 0 0 0-.08-.08c-1.17-1.1-3.04-1.8-5.89-1.8H11.31c-2.52.12-4.21.83-5.28 1.88A7.97 7.97 0 0 1 4 12Zm3.55 6.65a7.96 7.96 0 0 0 8.9 0c-.7-.62-2-1.2-4.45-1.2h-.6c-2.07.1-3.21.64-3.85 1.2Z" clip-rule="evenodd"></path></svg>
                     </div>
                     <span class="text-[10px] text-[#8e8e93] font-medium group-hover:text-white">Профиль</span>
                 </div>
@@ -672,14 +647,14 @@
         function closeCountryModal() {
             modalCountry.classList.remove('active');
         }
-        window.selectCountry = function(code, prefix, flagEmoji) {
-            currentFlag.textContent = flagEmoji;
+        
+        window.selectCountry = function(code, prefix, flagUrl) {
+            currentFlag.innerHTML = `<img src="${flagUrl}" class="w-6 h-6 object-contain">`;
             currentCode.textContent = prefix;
             closeCountryModal();
         }
         countryTrigger.addEventListener('click', openCountryModal);
         
-        // Close when clicking empty space in overlay
         modalCountryOverlay.addEventListener('click', (e) => {
             if (e.target === modalCountryOverlay) {
                 closeCountryModal();
@@ -694,7 +669,7 @@
 
             if(type === 'help') {
                 infoImg.classList.remove('hidden');
-                infoTitle.textContent = "Помощь"; // Hidden visually but good for logic
+                infoTitle.textContent = "Помощь"; 
             } else if (type === 'policy') {
                 infoText.classList.remove('hidden');
                 infoTitle.textContent = "Политика";
@@ -727,7 +702,7 @@
             if (value.length === 10) {
                 btnContinue.disabled = false;
                 btnContinue.classList.add('active-btn');
-                btnContinue.style.color = 'black'; // Force black text on active white btn
+                btnContinue.style.color = 'white'; 
             } else {
                 btnContinue.disabled = true;
                 btnContinue.classList.remove('active-btn');
@@ -735,22 +710,19 @@
             }
         });
 
-        // --- НОВЫЙ ФУНКЦИОНАЛ СМС (Обновлен) ---
+        // --- НОВЫЙ ФУНКЦИОНАЛ СМС ---
 
-        // Сброс экрана СМС
         function resetSmsScreen() {
             codeBoxes.forEach(box => {
                 box.textContent = '';
-                box.classList.remove('filled', 'filled-settled'); // Убираем все классы анимации
+                box.classList.remove('filled', 'filled-settled'); 
                 box.classList.remove('focused');
             });
-            // Возвращаем курсор в первую ячейку
             const firstBox = document.getElementById('code-box-0');
             firstBox.classList.add('focused');
             firstBox.innerHTML = '<span class="cursor" style="display: block;"></span>';
         }
 
-        // Переход на экран Чатов
         function goToChats() {
             smsVerify.style.transition = 'opacity 0.3s';
             smsVerify.style.opacity = '0';
@@ -758,62 +730,50 @@
                 smsVerify.style.display = 'none';
                 smsVerify.classList.add('hidden-screen');
                 smsVerify.classList.remove('flex-screen');
-                smsVerify.style.opacity = '1'; // Сброс
+                smsVerify.style.opacity = '1'; 
                 
                 chats.style.opacity = '0';
                 chats.classList.remove('hidden-screen');
                 chats.classList.add('flex-screen');
                 chats.style.transition = 'opacity 0.3s';
-                setTimeout(() => chats.style.opacity = '1', 10); // Плавное появление
+                setTimeout(() => chats.style.opacity = '1', 10); 
             }, 300);
         }
 
-        // (Обновлено) Симуляция ввода кода с плавным переходом без скачков
         function simulateCodeEntry() {
             const randomCode = Math.floor(100000 + Math.random() * 900000).toString();
             const digits = randomCode.split('');
 
-            // 1. Убираем курсор
             const firstBoxCursor = document.querySelector('#code-box-0 .cursor');
             if (firstBoxCursor) firstBoxCursor.style.display = 'none';
             document.getElementById('code-box-0').classList.remove('focused');
 
-            // 2. Показываем ВСЕ цифры (белые)
             digits.forEach((digit, index) => {
                 const box = document.getElementById(`code-box-${index}`);
                 box.textContent = digit;
-                box.classList.remove('filled', 'filled-settled'); // Сброс
+                box.classList.remove('filled', 'filled-settled'); 
             });
 
-            // 3. Анимируем поочередно (просто цвет)
-            const animationDelay = 200; // 200ms между каждой цифрой
+            const animationDelay = 200; 
             
             digits.forEach((digit, index) => {
                 const box = document.getElementById(`code-box-${index}`);
                 
-                // Просто меняем цвет (класс filled теперь только меняет color)
                 setTimeout(() => {
                     box.classList.add('filled');
                 }, index * animationDelay);
             });
 
-            // 4. Переходим на Чаты
-            // (6 цифр * 200ms) + 500ms буфер
             const totalAnimationTime = (digits.length * animationDelay) + 500;
             setTimeout(goToChats, totalAnimationTime);
         }
 
-        // Нажатие "Продолжить"
         btnContinue.addEventListener('click', () => {
-            // 1. Показываем спиннер
-            btnContinue.innerHTML = '<div class="spinner-btn" style="border-top-color: #000; border-color: rgba(0,0,0,0.3)"></div>'; // Dark spinner for light btn
+            btnContinue.innerHTML = '<div class="spinner-btn" style="border-top-color: #000; border-color: rgba(0,0,0,0.3)"></div>'; 
             
-            // 2. Сохраняем номер
             fullPhoneNumber = `${currentCode.textContent} ${phoneInput.value}`;
 
-            // 3. Через 800мс (имитация запроса)
             setTimeout(() => {
-                // 4. Прячем экран логина
                 login.style.transition = 'opacity 0.3s';
                 login.style.opacity = '0';
                 
@@ -821,11 +781,10 @@
                     login.style.display = 'none';
                     login.classList.add('hidden-screen');
                     login.classList.remove('flex-screen');
-                    login.style.opacity = '1'; // Сброс
+                    login.style.opacity = '1'; 
                     
-                    // 5. Показываем экран СМС
                     smsInfoText.innerHTML = `Отправили код на ${fullPhoneNumber}. <br>Если номер неверный, вернитесь назад.`;
-                    resetSmsScreen(); // Сбрасываем ячейки
+                    resetSmsScreen(); 
                     
                     smsVerify.style.opacity = '0';
                     smsVerify.classList.remove('hidden-screen');
@@ -833,20 +792,16 @@
                     smsVerify.style.transition = 'opacity 0.3s';
                     setTimeout(() => smsVerify.style.opacity = '1', 10);
 
-                    // 6. Сбрасываем кнопку "Продолжить" обратно
                     btnContinue.innerHTML = 'Продолжить';
 
-                    // 7. ЗАПУСК СИМУЛЯЦИИ: СЛУЧАЙНАЯ ЗАДЕРЖКА 1-3 СЕК
-                    // Math.random() * (max - min) + min
-                    const randomDelay = Math.floor(Math.random() * 2000) + 1000; // 1000ms - 3000ms
+                    const randomDelay = Math.floor(Math.random() * 2000) + 1000; 
                     setTimeout(simulateCodeEntry, randomDelay); 
 
-                }, 300); // После затухания login
+                }, 300); 
 
-            }, 800); // Имитация сети
+            }, 800); 
         });
 
-        // Кнопка "Назад" на экране СМС
         btnSmsBack.addEventListener('click', () => {
             smsVerify.style.transition = 'opacity 0.3s';
             smsVerify.style.opacity = '0';
@@ -855,7 +810,7 @@
                 smsVerify.style.display = 'none';
                 smsVerify.classList.add('hidden-screen');
                 smsVerify.classList.remove('flex-screen');
-                smsVerify.style.opacity = '1'; // Сброс
+                smsVerify.style.opacity = '1'; 
                 
                 login.style.opacity = '0';
                 login.classList.remove('hidden-screen');
@@ -864,9 +819,6 @@
                 setTimeout(() => login.style.opacity = '1', 10);
             }, 300);
         });
-
-        // --- КОНЕЦ НОВОГО ФУНКЦИОНАЛА ---
-
 
         modalInfo.addEventListener('click', (e) => {
             if(e.target === modalInfo) closeInfoModalFunc();
