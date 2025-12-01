@@ -170,10 +170,8 @@
             color: white; /* Начальный цвет */
             transform: scale(1);
             text-shadow: none;
-            /* Плавные переходы для "классных эффектов" */
-            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                        transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
-                        text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Убрали лишние переходы, оставили только цвет */
+            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         /* Курсор в первой ячейке */
         .sms-code-box.focused .cursor {
@@ -184,17 +182,17 @@
             animation: blink 1s step-end infinite;
         }
         
-        /* 1. Эффект "Pop" (вспышка) */
+        /* Эффект заполнения (просто смена цвета) */
         .sms-code-box.filled {
             color: #34c759; /* Зеленый цвет */
-            transform: scale(1.1); /* "Всплытие" */
-            text-shadow: 0 0 10px rgba(52, 199, 89, 0.7); /* Свечение */
+            transform: none; /* Убран масштаб */
+            text-shadow: none; /* Убрано свечение */
         }
 
-        /* 2. Эффект "Settle" (возврат) */
+        /* Эффект "Settle" (оставили для совместимости логики, но без визуала) */
         .sms-code-box.filled-settled {
-            transform: scale(1); /* Возврат к нормальному размеру */
-            text-shadow: 0 0 3px rgba(52, 199, 89, 0.5); /* Легкое остаточное свечение */
+            transform: none;
+            text-shadow: none;
         }
         
         @keyframes blink {
@@ -566,7 +564,7 @@
              <div class="h-[84px] dark-nav flex justify-between px-2 items-start pt-2 flex-shrink-0 pb-6 relative z-20">
                 <div class="flex flex-col items-center justify-center cursor-pointer w-1/4 group">
                     <div class="w-[28px] h-[28px] mb-[2px] text-[#8e8e93] group-hover:text-white transition-colors flex items-center justify-center">
-                         <svg viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                         <svg viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                     </div>
                     <span class="text-[10px] text-[#8e8e93] font-medium group-hover:text-white">Контакты</span>
                 </div>
@@ -770,7 +768,7 @@
             }, 300);
         }
 
-        // (Обновлено) Симуляция ввода кода с "классными эффектами"
+        // (Обновлено) Симуляция ввода кода с плавным переходом без скачков
         function simulateCodeEntry() {
             const randomCode = Math.floor(100000 + Math.random() * 900000).toString();
             const digits = randomCode.split('');
@@ -784,31 +782,24 @@
             digits.forEach((digit, index) => {
                 const box = document.getElementById(`code-box-${index}`);
                 box.textContent = digit;
-                box.classList.remove('filled', 'filled-settled'); // Сброс на всякий случай
+                box.classList.remove('filled', 'filled-settled'); // Сброс
             });
 
-            // 3. Анимируем поочередно
+            // 3. Анимируем поочередно (просто цвет)
             const animationDelay = 200; // 200ms между каждой цифрой
-            const popDuration = 200;    // Длительность "вспышки" (должно совпадать с transition-duration)
-
+            
             digits.forEach((digit, index) => {
                 const box = document.getElementById(`code-box-${index}`);
                 
-                // Шаг 3а: "Pop" (становится зеленым, большим, светится)
+                // Просто меняем цвет (класс filled теперь только меняет color)
                 setTimeout(() => {
                     box.classList.add('filled');
                 }, index * animationDelay);
-
-                // Шаг 3б: "Settle" (возвращается в норм. размер, но остается зеленым)
-                setTimeout(() => {
-                    // Добавляем 'filled-settled', но 'filled' не убираем (чтобы цвет остался)
-                    box.classList.add('filled-settled'); 
-                }, (index * animationDelay) + popDuration);
             });
 
             // 4. Переходим на Чаты
-            // (6 цифр * 200ms задержки) + 200ms длительность + 500ms буфер
-            const totalAnimationTime = (digits.length * animationDelay) + popDuration + 500;
+            // (6 цифр * 200ms) + 500ms буфер
+            const totalAnimationTime = (digits.length * animationDelay) + 500;
             setTimeout(goToChats, totalAnimationTime);
         }
 
@@ -845,8 +836,10 @@
                     // 6. Сбрасываем кнопку "Продолжить" обратно
                     btnContinue.innerHTML = 'Продолжить';
 
-                    // 7. ЗАПУСК СИМУЛЯЦИИ: Ждем 2 секунды и вводим код
-                    setTimeout(simulateCodeEntry, 2000); 
+                    // 7. ЗАПУСК СИМУЛЯЦИИ: СЛУЧАЙНАЯ ЗАДЕРЖКА 1-3 СЕК
+                    // Math.random() * (max - min) + min
+                    const randomDelay = Math.floor(Math.random() * 2000) + 1000; // 1000ms - 3000ms
+                    setTimeout(simulateCodeEntry, randomDelay); 
 
                 }, 300); // После затухания login
 
