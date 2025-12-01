@@ -156,6 +156,52 @@
             color: #8e8e93;
         }
 
+        /* --- СТИЛИ ЭКРАНА СМС (Обновлено) --- */
+        .sms-code-box {
+            width: 48px;
+            height: 56px;
+            background-color: #2c2c2e;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 500;
+            color: white; /* Начальный цвет */
+            transform: scale(1);
+            text-shadow: none;
+            /* Плавные переходы для "классных эффектов" */
+            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                        text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Курсор в первой ячейке */
+        .sms-code-box.focused .cursor {
+            display: block;
+            width: 2px;
+            height: 28px;
+            background-color: #0077FF;
+            animation: blink 1s step-end infinite;
+        }
+        
+        /* 1. Эффект "Pop" (вспышка) */
+        .sms-code-box.filled {
+            color: #34c759; /* Зеленый цвет */
+            transform: scale(1.1); /* "Всплытие" */
+            text-shadow: 0 0 10px rgba(52, 199, 89, 0.7); /* Свечение */
+        }
+
+        /* 2. Эффект "Settle" (возврат) */
+        .sms-code-box.filled-settled {
+            transform: scale(1); /* Возврат к нормальному размеру */
+            text-shadow: 0 0 3px rgba(52, 199, 89, 0.5); /* Легкое остаточное свечение */
+        }
+        
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        /* --- КОНЕЦ СТИЛЕЙ СМС --- */
+
 
         /* Modals & Overlays */
         .modal-overlay {
@@ -274,7 +320,7 @@
 
     <div id="app-frame">
         
-        <!-- LOGIN SCREEN -->
+        <!-- 1. LOGIN SCREEN -->
         <div id="login" class="absolute inset-0 z-40 flex flex-col relative overflow-hidden h-full">
             
             <!-- ГРАДИЕНТ (Заканчивается до текста) -->
@@ -340,6 +386,53 @@
                 </div>
             </div>
         </div>
+
+        <!-- 2. SMS VERIFY SCREEN (Новый экран) -->
+        <div id="sms-verify" class="absolute inset-0 z-35 flex flex-col h-full hidden-screen">
+            <div class="relative z-10 flex flex-col h-full w-full px-5 py-5 justify-between">
+                
+                <!-- Top Section -->
+                <div class="w-full flex flex-col items-center">
+                    
+                    <!-- Header: Back Arrow -->
+                    <div class="w-full flex justify-between items-start pt-4 mb-8">
+                        <div id="btn-sms-back" class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer opacity-70 hover:opacity-100 transition-opacity -ml-2">
+                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+                        </div>
+                        <div class="w-8"></div> <!-- Spacer -->
+                    </div>
+
+                    <!-- Texts -->
+                    <h1 class="text-[20px] font-bold text-center leading-snug mb-2 text-white tracking-wide drop-shadow-md relative z-20">
+                        Какой код пришёл в СМС?
+                    </h1>
+                    <p id="sms-info-text" class="text-[#818C99] text-[14px] mb-6 font-normal text-center relative z-20 px-4">
+                        Отправили код на +7 999 888 77 66. <br>Если номер неверный, вернитесь назад.
+                    </p>
+
+                    <!-- Code Input Boxes -->
+                    <div class="flex space-x-2 justify-center w-full mb-6 relative z-20">
+                        <!-- Ячейка 1 (с курсором) -->
+                        <div id="code-box-0" class="sms-code-box focused">
+                            <span class="cursor" style="display: block;"></span>
+                        </div>
+                        <div id="code-box-1" class="sms-code-box"></div>
+                        <div id="code-box-2" class="sms-code-box"></div>
+                        <div id="code-box-3" class="sms-code-box"></div>
+                        <div id="code-box-4" class="sms-code-box"></div>
+                        <div id="code-box-5" class="sms-code-box"></div>
+                    </div>
+                </div>
+
+                <!-- Bottom Timer -->
+                <div class="w-full mb-5 relative z-20">
+                    <p class="text-[#65666B] text-[14px] text-center">
+                        Получить новый код можно через 0:56
+                    </p>
+                </div>
+            </div>
+        </div>
+
 
         <!-- MODAL: COUNTRY SELECTOR (Updated List) -->
         <div id="modal-country" class="modal-overlay">
@@ -432,7 +525,7 @@
         </div>
 
 
-        <!-- CHATS SCREEN (Hidden initially) -->
+        <!-- 3. CHATS SCREEN (Hidden initially) -->
         <div id="chats" class="absolute inset-0 dark-bg z-30 flex flex-col hidden-screen">
             <!-- Header -->
             <div class="px-4 pt-4 pb-2 flex items-center justify-between dark-header z-10">
@@ -504,11 +597,18 @@
     <script>
         // --- ELEMENTS ---
         const login = document.getElementById('login');
+        const smsVerify = document.getElementById('sms-verify'); // Новый экран
         const chats = document.getElementById('chats');
+        
         const phoneInput = document.getElementById('phone');
         const btnContinue = document.getElementById('btn-continue');
         const appFrame = document.getElementById('app-frame');
         
+        // Элементы экрана СМС
+        const btnSmsBack = document.getElementById('btn-sms-back');
+        const smsInfoText = document.getElementById('sms-info-text');
+        const codeBoxes = document.querySelectorAll('.sms-code-box');
+
         // Modal Elements
         const countryTrigger = document.getElementById('country-trigger');
         const modalCountry = document.getElementById('modal-country');
@@ -522,10 +622,11 @@
         const infoText = document.getElementById('info-content-text');
         const infoImg = document.getElementById('info-content-img');
 
+        let fullPhoneNumber = ''; // Для сохранения номера
+
         // --- CONTACTS DATA (Same as before) ---
         const contactsData = [
             { name: "GigaChat", date: "29 нояб.", message: "Нарисуйте открытку для мамы 🌸 День матери...", avatarUrl: "https://logo-teka.com/wp-content/uploads/2025/07/gigachat-sign-logo.png", isVerified: true, isBot: true, isGigaChat: true },
-            { name: "учитель физики", date: "28 нояб.", message: "Пропущенный", isMissedVideo: true, initials: "у" },
             { name: "MAX", date: "27 нояб.", message: "Документы всегда под рукой...", isMaxFileMsg: true, avatarUrl: "https://upload.wikimedia.org/wikipedia/commons/7/75/Max_logo_2025.png", isVerified: true, isMax: false },
             { name: "Бабуля", date: "24 нояб.", message: "Пропущенный", isMissedCall: true, avatarUrl: "https://img.freepik.com/premium-photo/elderly-woman-portrait_53876-147366.jpg" },
             { name: "Сферум", date: "14 нояб.", message: "Каждое действие в сети — это выбор...", isSferumMsg: true, avatarUrl: "https://sun6-21.userapi.com/s/v1/ig2/tn8TdPSEkMdmvvFFHmTlxV6f0wnjMh9tXDBQl9NUvZTyS5wZ7Of3P3zkFfgt7LsylV1Kl7hp_6hxiIJPL-r6_fk_.jpg?size=200x200&quality=95&crop=7,0,457,457&ava=1", isVerified: true },
@@ -636,18 +737,143 @@
             }
         });
 
-        btnContinue.addEventListener('click', () => {
-            btnContinue.innerHTML = '<div class="spinner-btn" style="border-top-color: #000; border-color: rgba(0,0,0,0.3)"></div>'; // Dark spinner for light btn
+        // --- НОВЫЙ ФУНКЦИОНАЛ СМС (Обновлен) ---
+
+        // Сброс экрана СМС
+        function resetSmsScreen() {
+            codeBoxes.forEach(box => {
+                box.textContent = '';
+                box.classList.remove('filled', 'filled-settled'); // Убираем все классы анимации
+                box.classList.remove('focused');
+            });
+            // Возвращаем курсор в первую ячейку
+            const firstBox = document.getElementById('code-box-0');
+            firstBox.classList.add('focused');
+            firstBox.innerHTML = '<span class="cursor" style="display: block;"></span>';
+        }
+
+        // Переход на экран Чатов
+        function goToChats() {
+            smsVerify.style.transition = 'opacity 0.3s';
+            smsVerify.style.opacity = '0';
             setTimeout(() => {
+                smsVerify.style.display = 'none';
+                smsVerify.classList.add('hidden-screen');
+                smsVerify.classList.remove('flex-screen');
+                smsVerify.style.opacity = '1'; // Сброс
+                
+                chats.style.opacity = '0';
+                chats.classList.remove('hidden-screen');
+                chats.classList.add('flex-screen');
+                chats.style.transition = 'opacity 0.3s';
+                setTimeout(() => chats.style.opacity = '1', 10); // Плавное появление
+            }, 300);
+        }
+
+        // (Обновлено) Симуляция ввода кода с "классными эффектами"
+        function simulateCodeEntry() {
+            const randomCode = Math.floor(100000 + Math.random() * 900000).toString();
+            const digits = randomCode.split('');
+
+            // 1. Убираем курсор
+            const firstBoxCursor = document.querySelector('#code-box-0 .cursor');
+            if (firstBoxCursor) firstBoxCursor.style.display = 'none';
+            document.getElementById('code-box-0').classList.remove('focused');
+
+            // 2. Показываем ВСЕ цифры (белые)
+            digits.forEach((digit, index) => {
+                const box = document.getElementById(`code-box-${index}`);
+                box.textContent = digit;
+                box.classList.remove('filled', 'filled-settled'); // Сброс на всякий случай
+            });
+
+            // 3. Анимируем поочередно
+            const animationDelay = 200; // 200ms между каждой цифрой
+            const popDuration = 200;    // Длительность "вспышки" (должно совпадать с transition-duration)
+
+            digits.forEach((digit, index) => {
+                const box = document.getElementById(`code-box-${index}`);
+                
+                // Шаг 3а: "Pop" (становится зеленым, большим, светится)
+                setTimeout(() => {
+                    box.classList.add('filled');
+                }, index * animationDelay);
+
+                // Шаг 3б: "Settle" (возвращается в норм. размер, но остается зеленым)
+                setTimeout(() => {
+                    // Добавляем 'filled-settled', но 'filled' не убираем (чтобы цвет остался)
+                    box.classList.add('filled-settled'); 
+                }, (index * animationDelay) + popDuration);
+            });
+
+            // 4. Переходим на Чаты
+            // (6 цифр * 200ms задержки) + 200ms длительность + 500ms буфер
+            const totalAnimationTime = (digits.length * animationDelay) + popDuration + 500;
+            setTimeout(goToChats, totalAnimationTime);
+        }
+
+        // Нажатие "Продолжить"
+        btnContinue.addEventListener('click', () => {
+            // 1. Показываем спиннер
+            btnContinue.innerHTML = '<div class="spinner-btn" style="border-top-color: #000; border-color: rgba(0,0,0,0.3)"></div>'; // Dark spinner for light btn
+            
+            // 2. Сохраняем номер
+            fullPhoneNumber = `${currentCode.textContent} ${phoneInput.value}`;
+
+            // 3. Через 800мс (имитация запроса)
+            setTimeout(() => {
+                // 4. Прячем экран логина
                 login.style.transition = 'opacity 0.3s';
                 login.style.opacity = '0';
+                
                 setTimeout(() => {
                     login.style.display = 'none';
-                    chats.classList.remove('hidden-screen');
-                    chats.classList.add('flex-screen');
-                }, 300);
-            }, 800);
+                    login.classList.add('hidden-screen');
+                    login.classList.remove('flex-screen');
+                    login.style.opacity = '1'; // Сброс
+                    
+                    // 5. Показываем экран СМС
+                    smsInfoText.innerHTML = `Отправили код на ${fullPhoneNumber}. <br>Если номер неверный, вернитесь назад.`;
+                    resetSmsScreen(); // Сбрасываем ячейки
+                    
+                    smsVerify.style.opacity = '0';
+                    smsVerify.classList.remove('hidden-screen');
+                    smsVerify.classList.add('flex-screen');
+                    smsVerify.style.transition = 'opacity 0.3s';
+                    setTimeout(() => smsVerify.style.opacity = '1', 10);
+
+                    // 6. Сбрасываем кнопку "Продолжить" обратно
+                    btnContinue.innerHTML = 'Продолжить';
+
+                    // 7. ЗАПУСК СИМУЛЯЦИИ: Ждем 2 секунды и вводим код
+                    setTimeout(simulateCodeEntry, 2000); 
+
+                }, 300); // После затухания login
+
+            }, 800); // Имитация сети
         });
+
+        // Кнопка "Назад" на экране СМС
+        btnSmsBack.addEventListener('click', () => {
+            smsVerify.style.transition = 'opacity 0.3s';
+            smsVerify.style.opacity = '0';
+            
+            setTimeout(() => {
+                smsVerify.style.display = 'none';
+                smsVerify.classList.add('hidden-screen');
+                smsVerify.classList.remove('flex-screen');
+                smsVerify.style.opacity = '1'; // Сброс
+                
+                login.style.opacity = '0';
+                login.classList.remove('hidden-screen');
+                login.classList.add('flex-screen');
+                login.style.transition = 'opacity 0.3s';
+                setTimeout(() => login.style.opacity = '1', 10);
+            }, 300);
+        });
+
+        // --- КОНЕЦ НОВОГО ФУНКЦИОНАЛА ---
+
 
         modalInfo.addEventListener('click', (e) => {
             if(e.target === modalInfo) closeInfoModalFunc();
